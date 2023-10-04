@@ -7,10 +7,13 @@ import Navigo from "navigo"; // When using ES modules.
 import ControlerProduct from "./pages/products_controller";
 import { router } from "./routes";
 
+import { vanillaToast } from "vanilla-toast";
+
 router
   .on("/", function () {
     ControlerProduct.index().then((data) => {
       document.querySelector("#app").innerHTML = data;
+      ControlerProduct.delete_product();
     });
   })
   .on("/about", function () {

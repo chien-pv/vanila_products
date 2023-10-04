@@ -1,6 +1,9 @@
 import axios from "axios";
 import Product from "../models/product";
 import { router } from "../routes";
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
+const notyf = new Notyf();
 
 class ControlerProduct {
   static async index() {
@@ -26,6 +29,7 @@ class ControlerProduct {
               <th scope="col">Name</th>
               <th scope="col">Price</th>
               <th scope="col">Image</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -70,7 +74,34 @@ class ControlerProduct {
       <td>
           <img src='${image}'  width="100" >
       </td>
+      <td>
+        <button data-id=${key} type="button" class="btn btn-danger btn-delete">delete</button>
+      </td>
     </tr>`;
+  }
+
+  static delete_product() {
+    let btns = document.getElementsByClassName("btn-delete");
+    console.log(btns);
+
+    for (let index = 0; index < btns.length; index++) {
+      btns[index].onclick = async function (e) {
+        console.log(e.target.dataset.id);
+
+        // console.log(tr);
+        const response = await axios.delete(
+          `https://es6demo-1c283-default-rtdb.firebaseio.com/products/${e.target.dataset.id}.json`
+        );
+
+        notyf.error({
+          message: "Bạn đã xoá thành công",
+          duration: 3000,
+          icon: false,
+        });
+        e.target.parentElement.parentElement.remove();
+        // router.navigate("/");
+      };
+    }
   }
 
   static create() {
@@ -96,6 +127,11 @@ class ControlerProduct {
           }
         );
         router.navigate("/");
+        notyf.success({
+          message: "Bạn đã tạo dữ liệu thành công",
+          duration: 3000,
+          icon: false,
+        });
       };
     };
   }
