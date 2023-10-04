@@ -34,7 +34,15 @@
         </div>
       </div>
     </nav>
-    <div id="app"></div>
+    <div class="container" id="app"></div>
     <script type="module" src="/main.js"></script>
+
+    <script>
+      console.log(this);
+    </script>
+
+    <script type="module">
+      console.log( import.meta);
+    </script>
   </body>
 </html>
